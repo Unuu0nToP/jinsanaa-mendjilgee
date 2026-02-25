@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Миний хайртдаа... ❤️</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;700&family=Caveat:wght@600&display=swap');
+
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(-45deg, #ff9a9e, #fecfef, #ffdde1, #ee9ca7);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            overflow: hidden;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .heart-bg {
+            position: absolute;
+            top: -10%;
+            user-select: none;
+            pointer-events: none;
+            animation: moveAndSway 10s ease-in infinite;
+            opacity: 0.6;
+            z-index: 1;
+        }
+
+        @keyframes moveAndSway {
+            0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            50% { transform: translateY(50vh) translateX(40px) rotate(180deg); }
+            100% { transform: translateY(110vh) translateX(-40px) rotate(360deg); opacity: 0; }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.4); 
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            border-radius: 50px;
+            padding: 3.5rem 2rem;
+            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.2);
+            text-align: center;
+            z-index: 10;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            animation: cardFloat 5s ease-in-out infinite;
+        }
+
+        @keyframes cardFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        .romantic-title {
+            font-family: 'Dancing Script', cursive;
+            color: #d63384;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+        }
+
+        .handwritten {
+            font-family: 'Caveat', cursive;
+            color: #ff4d6d;
+            text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
+        }
+
+        .btn-love {
+            background: #ff4d6d;
+            color: #ffffff;
+            border: none;
+            box-shadow: 0 8px 20px rgba(255, 77, 109, 0.4);
+            transition: all 0.3s ease;
+            font-weight: 700;
+        }
+
+        .btn-love:hover {
+            transform: scale(1.05);
+            background: #d63384;
+            box-shadow: 0 12px 25px rgba(214, 51, 132, 0.5);
+        }
+
+        #typing-text {
+            color: #4a4a4a;
+            font-weight: 500;
+            line-height: 1.7;
+        }
+
+        #signature {
+            color: #d63384;
+            font-weight: 700;
+            margin-top: 1rem;
+            display: block;
+        }
+
+        #hidden-msg {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 25px;
+            padding: 20px;
+            margin-top: 25px;
+            border: 1px solid rgba(255, 77, 109, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <div style="position: absolute; visibility: hidden; pointer-events: none;">
+        <iframe id="yt-player" width="100" height="100" 
+            src="https://www.youtube.com/embed/gKAPd4JcuUc?enablejsapi=1" 
+            frameborder="0" allow="autoplay">
+        </iframe>
+    </div>
+
+    <div id="heart-container"></div>
+
+    <div class="glass-card">
+        <div class="absolute -top-4 -right-4 text-5xl opacity-80 animate-pulse">🌹</div>
+        <div class="absolute -bottom-4 -left-4 text-5xl opacity-80 animate-bounce">🕊️</div>
+
+        <div class="mb-6">
+            <h1 class="romantic-title text-4xl md:text-5xl font-bold mb-3">Төрсөн өдрийн мэнд бэби</h1>
+            <h2 class="handwritten text-3xl">Хүндэт хайр Чинсанаа ❤️</h2>
+        </div>
+        
+        <div class="text-lg mb-8 italic min-h-[120px] px-2">
+            <span id="typing-text"></span>
+            <span id="signature" class="opacity-0 transition-opacity duration-1000"></span>
+        </div>
+
+        <button onclick="superSurprise()" id="main-btn" class="btn-love px-12 py-4 rounded-full text-xl flex items-center justify-center gap-3 mx-auto">
+            <span>Зөвхөн жамдаа зориулав ✨</span> 
+        </button>
+
+        <div id="hidden-msg" class="hidden opacity-0 transition-all duration-1000 transform scale-95">
+            <p class="text-pink-600 text-2xl font-bold handwritten">"Жамдаа үгээр орлуулашгүй хайртай шүү! 🌹"</p>
+            <p class="text-gray-600 mt-2 text-xs uppercase tracking-[0.2em] font-bold">Өвөө эмээ болтлоо хамтдаа байцгааё! 🥂</p>
+            <div class="mt-4 flex justify-center gap-6 text-3xl">
+                <span>🧁</span>
+                <span>💝</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const mainText = "Жи минь миний амьдралын ихэнх хувийг эзэлдэг шүү. Энэ жил жиний хувьд хамгийн гоё, хамгийн аз жаргалтай жил байгаасай. Би үргэлж жиний хажууд, жиний талд байх болно. Хайртай шүү.";
+        const signatureText = "Хүндэтгэсэн Өнөболд 🥰";
+        let index = 0;
+
+        function typeEffect() {
+            if (index < mainText.length) {
+                document.getElementById("typing-text").innerHTML += mainText.charAt(index);
+                index++;
+                setTimeout(typeEffect, 65 + Math.random() * 35);
+            } else {
+                // Үндсэн текст бичигдэж дууссаны дараа гарын үсгийг харуулна
+                const sigElement = document.getElementById("signature");
+                sigElement.innerHTML = signatureText;
+                sigElement.classList.remove("opacity-0");
+            }
+        }
+
+        function createHearts() {
+            const container = document.getElementById('heart-container');
+            const hearts = ['❤️', '💖', '🌸', '🤍', '💕'];
+            
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart-bg';
+                heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                heart.style.animationDuration = (Math.random() * 4 + 8) + 's';
+                container.appendChild(heart);
+                setTimeout(() => heart.remove(), 10000);
+            }, 800);
+        }
+
+        function superSurprise() {
+            const iframe = document.getElementById('yt-player');
+            iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+
+            const msg = document.getElementById('hidden-msg');
+            msg.classList.remove('hidden');
+            setTimeout(() => {
+                msg.style.opacity = '1';
+                msg.style.transform = 'scale(1)';
+            }, 100);
+
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#ff4d6d', '#ffccd5', '#ffffff', '#c9184a'],
+                shapes: ['heart']
+            });
+
+            document.getElementById('main-btn').style.display = 'none';
+        }
+
+        window.onload = () => {
+            createHearts();
+            setTimeout(typeEffect, 1200);
+        };
+    </script>
+</body>
+</html>
